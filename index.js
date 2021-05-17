@@ -1,15 +1,18 @@
 const express = require('express');
 const mysql = require('mysql');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 const app = express();
 
 // Connection
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'nodemysql',
-    port: 8889
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
 });
 
 // Connect
@@ -102,9 +105,11 @@ app.get('/getpost/:id', (req, res) => {
 })
 
 // Update post
-app.get('/updatepost/:id', (req, res) =>{
+app.get('/updatepost/:id', (req, res) => {
     let newTitle = 'Updated title';
-    let sql = `UPDATE posts SET title = '${newTitle}' WHERE id = ${req.params.id}`
+    let sql = `UPDATE posts SET title = '${newTitle}' WHERE id = ${
+        req.params.id
+    }`
     let query = db.query(sql, function (err, result,) {
         if (err) {
             console.log(err);
@@ -115,8 +120,10 @@ app.get('/updatepost/:id', (req, res) =>{
 })
 
 // Delete post
-app.get('/deletepost/:id', (req, res) =>{
-    let sql = `DELETE FROM posts WHERE id = ${req.params.id}`
+app.get('/deletepost/:id', (req, res) => {
+    let sql = `DELETE FROM posts WHERE id = ${
+        req.params.id
+    }`
     let query = db.query(sql, function (err, result,) {
         if (err) {
             console.log(err);
