@@ -136,13 +136,9 @@ app.get('/deletepost/:id', (req, res) => {
 */
 
 // OPC tests
-app.get('/api/v1/getposts', (req, res) => {
-    let sql = `SELECT posts.ID, postmeta.meta_key, postmeta.meta_value
-                FROM wp_posts as posts
-                LEFT JOIN wp_postmeta as postmeta
-                ON posts.ID = postmeta.post_id
-                WHERE posts.post_type = "product"
-                AND postmeta.meta_key = "_sku"
+app.get('/api/posts', (req, res) => {
+    let sql = `SELECT *
+                FROM wp_posts
                 LIMIT 50`;
     let query = db.query(sql, function (err, results) {
         if (err) {
@@ -150,9 +146,34 @@ app.get('/api/v1/getposts', (req, res) => {
         }
         res.json(results)
         console.log(`Success`)
-        
+
         let data = JSON.parse(JSON.stringify(results))
         console.log(data)
+    });
+})
+
+app.get('/api/products', (req, res) => {
+    let sql = `SELECT postmeta.post_id as product_id,
+                    MAX(CASE WHEN (postmeta.meta_key='_sku') THEN postmeta.meta_value ELSE NULL END) AS 'sku',
+                    MAX(CASE WHEN (postmeta.meta_key='unit_cost') THEN postmeta.meta_value ELSE NULL END) AS 'unit_cost',
+                    MAX(CASE WHEN (postmeta.meta_key='per_pack') THEN postmeta.meta_value ELSE NULL END) AS 'per_pack',
+                    MAX(CASE WHEN (postmeta.meta_key='per_carton') THEN postmeta.meta_value ELSE NULL END) AS 'per_carton',
+                    MAX(CASE WHEN (postmeta.meta_key='finishes') THEN postmeta.meta_value ELSE NULL END) AS 'finishes',
+                    MAX(CASE WHEN (postmeta.meta_key='packing') THEN postmeta.meta_value ELSE NULL END) AS 'packing',
+                    MAX(CASE WHEN (postmeta.meta_key='material') THEN postmeta.meta_value ELSE NULL END) AS 'material'
+                FROM wp_postmeta as postmeta
+                JOIN wp_posts as posts
+                    ON posts.ID = postmeta.post_id
+                WHERE posts.post_type = "product"
+                GROUP BY postmeta.post_id
+                ORDER BY postmeta.post_id DESC
+                LIMIT 50`;
+    let query = db.query(sql, function (err, results) {
+        if (err) {
+            throw err;
+        }
+        res.json(results)
+        console.log(`Success`)
     });
 })
 
