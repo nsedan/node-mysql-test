@@ -1,5 +1,5 @@
 const express = require('express');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -18,7 +18,12 @@ const db = mysql.createConnection({
 // Connect
 db.connect((err) => {
     if (err) {
-        throw err;
+        res.status(500).send({
+            message: err.message || "Some error occurred while connecting to DB."
+        });
+        res.status(400).send({
+            message: err.message || "Not found."
+        });
     }
     console.log("MySQL connected");
 });
@@ -166,8 +171,7 @@ app.get('/api/products', (req, res) => {
                     ON posts.ID = postmeta.post_id
                 WHERE posts.post_type = "product"
                 GROUP BY postmeta.post_id
-                ORDER BY postmeta.post_id DESC
-                LIMIT 50`;
+                ORDER BY postmeta.post_id DESC`;
     let query = db.query(sql, function (err, results) {
         if (err) {
             throw err;
@@ -177,6 +181,76 @@ app.get('/api/products', (req, res) => {
     });
 })
 
+
+app.get('/api/orders', (req, res) => {
+    let orders = `SELECT 
+                    orders.order_id,
+                    orders.customer_id,
+                    orders.date_created,
+                    orders.status,
+                    orders.num_items_sold,
+                    orders.total_sales,
+                    orders.tax_total,
+                    orders.shipping_total,
+                    orders.net_total
+                FROM wp_wc_order_stats AS orders`;
+    db.query(orders, function (err, results) {
+        if (err) {
+            throw err;
+        }
+        res.send(results)
+    });
+})
+
+app.get('/api/customer/orders/:id', (req, res) => {
+    let orders = `SELECT 
+                    orders.order_id,
+                    orders.customer_id,
+                    orders.date_created,
+                    orders.status,
+                    orders.num_items_sold,
+                    orders.total_sales,
+                    orders.tax_total,
+                    orders.shipping_total,
+                    orders.net_total
+                FROM wp_wc_order_stats AS orders
+                WHERE orders.customer_id = ?`;
+    let customerID = req.params.id
+    db.query(orders, customerID, function (err, results) {
+        if (err) {
+            throw err;
+        }
+        res.send(results)
+    });
+})
+
+app.get('/api/orders/:id', (req, res) => {
+    let itemmeta = `SELECT 
+                        orders.order_id,
+                        order_items.order_item_id,
+                        order_items.order_item_name,
+                        order_items.order_item_type,
+
+                        MAX(CASE WHEN (order_item_meta.meta_key='_product_id') THEN order_item_meta.meta_value ELSE NULL END) AS 'product_id',
+                        MAX(CASE WHEN (order_item_meta.meta_key='_qty') THEN order_item_meta.meta_value ELSE NULL END) AS 'qty',
+                        MAX(CASE WHEN (order_item_meta.meta_key='_line_total') THEN order_item_meta.meta_value ELSE NULL END) AS 'line_total',
+                        MAX(CASE WHEN (order_item_meta.meta_key='_line_tax') THEN order_item_meta.meta_value ELSE NULL END) AS 'line_tax'
+                        
+                    FROM wp_wc_order_stats AS orders
+                    JOIN wp_woocommerce_order_items AS order_items
+                        ON orders.order_id = order_items.order_id
+                    JOIN wp_woocommerce_order_itemmeta AS order_item_meta
+                        ON order_item_meta.order_item_id = order_items.order_item_id
+                    WHERE orders.order_id = ?
+                    GROUP BY order_items.order_item_id`;
+    let orderID = req.params.id
+    db.query(itemmeta, orderID, function (err, results) {
+        if (err) {
+            throw err;
+        }
+        res.send(results)
+    });
+})
 
 app.get('/', (req, res) => {
     res.send('Server running on port 3000')
