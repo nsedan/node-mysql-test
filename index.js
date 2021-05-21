@@ -6,6 +6,8 @@ dotenv.config();
 
 const app = express();
 
+const PORT = process.env.PORT;
+
 // Connection
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -59,7 +61,7 @@ app.get('/addpost1', (req, res) => {
         body: 'This is post number one'
     }
     let sql = 'INSERT INTO posts SET ?'
-    let query = db.query(sql, post, (err, result) => {
+    db.query(sql, post, (err, result) => {
         if (err) {
             throw err;
         }
@@ -75,7 +77,7 @@ app.get('/addpost2', (req, res) => {
         body: 'This is post number two'
     }
     let sql = 'INSERT INTO posts SET ?'
-    let query = db.query(sql, post, (err, result) => {
+    db.query(sql, post, (err, result) => {
         if (err) {
             throw err;
         }
@@ -87,7 +89,7 @@ app.get('/addpost2', (req, res) => {
 // Fetch all posts
 app.get('/getposts', (req, res) => {
     let sql = 'SELECT * FROM posts';
-    let query = db.query(sql, function (err, results,) {
+    db.query(sql, function (err, results,) {
         if (err) {
             throw err;
         }
@@ -101,7 +103,7 @@ app.get('/getpost/:id', (req, res) => {
     let sql = `SELECT * FROM posts WHERE id = ${
         req.params.id
     }`;
-    let query = db.query(sql, function (err, result,) {
+    db.query(sql, function (err, result,) {
         if (err) {
             throw err;
         }
@@ -116,7 +118,7 @@ app.get('/updatepost/:id', (req, res) => {
     let sql = `UPDATE posts SET title = '${newTitle}' WHERE id = ${
         req.params.id
     }`
-    let query = db.query(sql, function (err, result,) {
+    db.query(sql, function (err, result,) {
         if (err) {
             throw err;
         }
@@ -130,7 +132,7 @@ app.get('/deletepost/:id', (req, res) => {
     let sql = `DELETE FROM posts WHERE id = ${
         req.params.id
     }`
-    let query = db.query(sql, function (err, result,) {
+    db.query(sql, function (err, result,) {
         if (err) {
             throw err;
         }
@@ -145,7 +147,7 @@ app.get('/api/posts', (req, res) => {
     let sql = `SELECT *
                 FROM wp_posts
                 LIMIT 50`;
-    let query = db.query(sql, function (err, results) {
+    db.query(sql, function (err, results) {
         if (err) {
             throw err;
         }
@@ -172,7 +174,7 @@ app.get('/api/products', (req, res) => {
                 WHERE posts.post_type = "product"
                 GROUP BY postmeta.post_id
                 ORDER BY postmeta.post_id DESC`;
-    let query = db.query(sql, function (err, results) {
+    db.query(sql, function (err, results) {
         if (err) {
             throw err;
         }
@@ -183,7 +185,7 @@ app.get('/api/products', (req, res) => {
 
 
 app.get('/api/orders', (req, res) => {
-    let orders = `SELECT 
+    let sql = `SELECT 
                     orders.order_id,
                     orders.customer_id,
                     orders.date_created,
@@ -194,7 +196,7 @@ app.get('/api/orders', (req, res) => {
                     orders.shipping_total,
                     orders.net_total
                 FROM wp_wc_order_stats AS orders`;
-    db.query(orders, function (err, results) {
+    db.query(sql, function (err, results) {
         if (err) {
             throw err;
         }
@@ -203,7 +205,7 @@ app.get('/api/orders', (req, res) => {
 })
 
 app.get('/api/customer/orders/:id', (req, res) => {
-    let orders = `SELECT 
+    let sql = `SELECT 
                     orders.order_id,
                     orders.customer_id,
                     orders.date_created,
@@ -216,7 +218,7 @@ app.get('/api/customer/orders/:id', (req, res) => {
                 FROM wp_wc_order_stats AS orders
                 WHERE orders.customer_id = ?`;
     let customerID = req.params.id
-    db.query(orders, customerID, function (err, results) {
+    db.query(sql, customerID, function (err, results) {
         if (err) {
             throw err;
         }
@@ -225,26 +227,26 @@ app.get('/api/customer/orders/:id', (req, res) => {
 })
 
 app.get('/api/orders/:id', (req, res) => {
-    let itemmeta = `SELECT 
-                        orders.order_id,
-                        order_items.order_item_id,
-                        order_items.order_item_name,
-                        order_items.order_item_type,
+    let sql = `SELECT 
+                    orders.order_id,
+                    order_items.order_item_id,
+                    order_items.order_item_name,
+                    order_items.order_item_type,
 
-                        MAX(CASE WHEN (order_item_meta.meta_key='_product_id') THEN order_item_meta.meta_value ELSE NULL END) AS 'product_id',
-                        MAX(CASE WHEN (order_item_meta.meta_key='_qty') THEN order_item_meta.meta_value ELSE NULL END) AS 'qty',
-                        MAX(CASE WHEN (order_item_meta.meta_key='_line_total') THEN order_item_meta.meta_value ELSE NULL END) AS 'line_total',
-                        MAX(CASE WHEN (order_item_meta.meta_key='_line_tax') THEN order_item_meta.meta_value ELSE NULL END) AS 'line_tax'
-                        
-                    FROM wp_wc_order_stats AS orders
-                    JOIN wp_woocommerce_order_items AS order_items
-                        ON orders.order_id = order_items.order_id
-                    JOIN wp_woocommerce_order_itemmeta AS order_item_meta
-                        ON order_item_meta.order_item_id = order_items.order_item_id
-                    WHERE orders.order_id = ?
-                    GROUP BY order_items.order_item_id`;
+                    MAX(CASE WHEN (order_item_meta.meta_key='_product_id') THEN order_item_meta.meta_value ELSE NULL END) AS 'product_id',
+                    MAX(CASE WHEN (order_item_meta.meta_key='_qty') THEN order_item_meta.meta_value ELSE NULL END) AS 'qty',
+                    MAX(CASE WHEN (order_item_meta.meta_key='_line_total') THEN order_item_meta.meta_value ELSE NULL END) AS 'line_total',
+                    MAX(CASE WHEN (order_item_meta.meta_key='_line_tax') THEN order_item_meta.meta_value ELSE NULL END) AS 'line_tax'
+                    
+                FROM wp_wc_order_stats AS orders
+                JOIN wp_woocommerce_order_items AS order_items
+                    ON orders.order_id = order_items.order_id
+                JOIN wp_woocommerce_order_itemmeta AS order_item_meta
+                    ON order_item_meta.order_item_id = order_items.order_item_id
+                WHERE orders.order_id = ?
+                GROUP BY order_items.order_item_id`;
     let orderID = req.params.id
-    db.query(itemmeta, orderID, function (err, results) {
+    db.query(sql, orderID, function (err, results) {
         if (err) {
             throw err;
         }
@@ -256,6 +258,6 @@ app.get('/', (req, res) => {
     res.send('Server running on port 3000')
 })
 
-app.listen(3000, () => {
-    console.log('serving running on port 3000');
+app.listen(PORT, () => {
+    console.log(`serving running on port ${PORT}`);
 });
