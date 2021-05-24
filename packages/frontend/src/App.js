@@ -1,8 +1,10 @@
-import './App.css';
+import "./App.css";
+import Orders from "./components/Orders";
 
 function App() {
   return (
     <div>
+      <Orders />
     </div>
   );
 }
