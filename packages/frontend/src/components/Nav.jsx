@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Route, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -18,7 +18,7 @@ const Nav = () => {
   };
 
   const [responseData, setData] = useState("");
-  const getOrders = () => {
+  useEffect(() => {
     axios("http://localhost:4000/api/customer/81/orders")
       .then((res) => {
         const response = res.data;
@@ -31,7 +31,7 @@ const Nav = () => {
           error.message
         );
       });
-  };
+  }, []);
 
   return (
     <>
@@ -45,12 +45,7 @@ const Nav = () => {
           centered
         >
           <Tab component={Link} to="/" label="Dashboard" />
-          <Tab
-            component={Link}
-            to="/orders"
-            label="Orders"
-            onClick={getOrders}
-          />
+          <Tab component={Link} to="/orders" label="Orders" />
         </Tabs>
       </Paper>
 
