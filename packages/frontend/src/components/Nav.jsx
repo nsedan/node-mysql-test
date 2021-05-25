@@ -1,9 +1,11 @@
 import React from "react";
 import { Route, Link } from "react-router-dom";
+
+import Orders from "./Orders";
+
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Orders from "./Orders";
 
 const Nav = () => {
   const [value, setValue] = React.useState(0);

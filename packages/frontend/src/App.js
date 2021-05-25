@@ -1,8 +1,10 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import "./App.css";
-import CssBaseline from "@material-ui/core/CssBaseline";
+
 import Nav from "./components/Nav";
 import Dashboard from "./components/Dashboard";
+
+import CssBaseline from "@material-ui/core/CssBaseline";
+import "./App.css";
 
 function App() {
   return (
