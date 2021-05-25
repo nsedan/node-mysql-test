@@ -1,8 +1,7 @@
 import React from "react";
-import formatTime from "../utils/formatTime"
+import formatTime from "../utils/formatTime";
 
 const Order = ({ order }) => {
-
   return (
     <tbody>
       <tr>

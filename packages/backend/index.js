@@ -96,7 +96,7 @@ app.get('/api/orders', (req, res) => {
     });
 })
 
-app.get('/api/customer/orders/:id', (req, res) => {
+app.get('/api/customer/:id/orders/', (req, res) => {
     let sql = `SELECT 
                     orders.order_id,
                     orders.customer_id,
@@ -118,7 +118,7 @@ app.get('/api/customer/orders/:id', (req, res) => {
     });
 })
 
-app.get('/api/orders/:id', (req, res) => {
+app.get('/api/order/:id', (req, res) => {
     let sql = `SELECT 
                     orders.order_id,
                     order_items.order_item_id,
