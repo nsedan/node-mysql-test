@@ -1,36 +1,40 @@
-import React from "react";
+import { useState } from "react";
 import { Route, Link } from "react-router-dom";
+import axios from "axios";
 
 import Orders from "./Orders";
+import Dashboard from "./Dashboard";
 
+import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const Nav = () => {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const handleChange = (e, newValue) => {
     setValue(newValue);
   };
 
-  const [responseData, setData] = React.useState("");
+  const [responseData, setData] = useState("");
   const getOrders = () => {
-    fetch("http://localhost:4000/api/customer/81/orders")
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-        console.log(data);
+    axios("http://localhost:4000/api/customer/81/orders")
+      .then((res) => {
+        const response = res.data;
+        setData(response);
+        console.log(response);
       })
       .catch((error) => {
         console.log(
-          "There has been a problem with your fetch operation:",
+          "There has been a problem with your request:",
           error.message
         );
       });
   };
 
   return (
-    <div>
+    <>
       <Paper square>
         <Tabs
           value={value}
@@ -51,13 +55,18 @@ const Nav = () => {
       </Paper>
 
       <Route exact path="/orders">
-        {responseData.length ? (
-          <Orders orders={responseData} />
-        ) : (
-          <p>Nothing to show.</p>
-        )}
+        <Box m={5} display="flex" justifyContent="center">
+          {responseData.length ? (
+            <Orders orders={responseData} />
+          ) : (
+            <CircularProgress />
+          )}
+        </Box>
       </Route>
-    </div>
+      <Route exact path="/">
+        <Dashboard />
+      </Route>
+    </>
   );
 };
 
