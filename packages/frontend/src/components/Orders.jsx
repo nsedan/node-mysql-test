@@ -1,35 +1,38 @@
 import React from "react";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 import Order from "./Order";
 
 const Orders = ({ orders }) => {
   return (
     <>
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Date</th>
-            <th scope="col">Status</th>
-            <th scope="col">Subtotal</th>
-            <th scope="col">Shipping</th>
-            <th scope="col">Tax</th>
-            <th scope="col">Total</th>
-          </tr>
-        </thead>
-        {orders.length ? (
-          orders.map((order) => {
-            return <Order key={order.order_id} order={order} />;
-          })
-        ) : (
-          <tbody>
-            <tr>
-              <th scope="row" colSpan="5">
-                Nothing to show.
-              </th>
-            </tr>
-          </tbody>
-        )}
-      </table>
+      <TableContainer component={Paper}>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Num</TableCell>
+              <TableCell align="right">Date</TableCell>
+              <TableCell align="right">Status</TableCell>
+              <TableCell align="right">Subtotal</TableCell>
+              <TableCell align="right">Shipping</TableCell>
+              <TableCell align="right">Tax</TableCell>
+              <TableCell align="right">Total</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders.length
+              ? orders.map((order) => {
+                  return <Order key={order.order_id} order={order} />;
+                })
+              : "Nothing to show."}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };
