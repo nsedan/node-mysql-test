@@ -3,7 +3,7 @@ import Orders from "./components/Orders";
 
 function App() {
   return (
-    <div>
+    <div className='container'>
       <Orders />
     </div>
   );

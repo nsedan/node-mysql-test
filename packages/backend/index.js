@@ -86,7 +86,8 @@ app.get('/api/orders', (req, res) => {
                     orders.tax_total,
                     orders.shipping_total,
                     orders.net_total
-                FROM wp_wc_order_stats AS orders`;
+                FROM wp_wc_order_stats AS orders
+                ORDER BY orders.order_id DESC`;
     db.query(sql, function (err, results) {
         if (err) {
             throw err;
