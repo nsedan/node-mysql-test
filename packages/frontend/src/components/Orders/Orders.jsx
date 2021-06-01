@@ -1,5 +1,3 @@
-import React from "react";
-
 import Order from "./Order";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -13,7 +11,7 @@ import Paper from "@material-ui/core/Paper";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.info.dark,
+    backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
   },
 }))(TableCell);

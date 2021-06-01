@@ -1,6 +1,6 @@
 import React from "react";
 
-import formatTime from "../utils/formatTime";
+import formatTime from "../../utils/formatTime";
 
 import { withStyles } from "@material-ui/core/styles";
 import TableRow from "@material-ui/core/TableRow";
