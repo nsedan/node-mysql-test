@@ -1,23 +1,74 @@
+require('dotenv').config();
 const express = require('express');
+const cors = require('cors')
+const config = require(`./config/config`);
 const mysql = require('mysql2');
 
-const dotenv = require('dotenv');
-dotenv.config();
 const PORT = process.env.PORT;
 
 const app = express();
-const cors = require('cors')
 app.use(cors())
 
+const externalDB = config.development.databases.db1;
+const internalDB = config.development.databases.db2;
 
 // Connection
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT
+    host: externalDB.host,
+    user: externalDB.user,
+    password: externalDB.password,
+    database: externalDB.database,
+    port: externalDB.port
 });
+
+const {Sequelize, DataTypes, Model} = require('sequelize');
+const sequelize = new Sequelize({
+    host: internalDB.host,
+    username: internalDB.user,
+    password: internalDB.password,
+    database: internalDB.database,
+    port: internalDB.port,
+    dialect: 'mysql'
+});
+
+// sequelize.sync().then(function () {
+//     console.log('===================================');
+//     console.log('DB connection sucessful.');
+//     console.log('You can start working.');
+// }, function (err) {
+//     console.log('===================================');
+//     console.log('There was an error while trying to connect to the DB');
+//     console.log(err);
+// },);
+
+const User = sequelize.define("User", {
+    name: DataTypes.TEXT,
+    favoriteColor: {
+        type: DataTypes.TEXT,
+        defaultValue: 'red'
+    },
+    age: DataTypes.INTEGER,
+    cash: DataTypes.INTEGER
+});
+
+const sync = (async () => {
+    // await sequelize.drop(); // drop User table
+    // const jane = await User.create({name: "Jane", age: 25, cash: 5000});
+    // console.log(jane.toJSON());
+    const users = await User.findAll();
+    console.log("All users:", JSON.stringify(users, null, 2));
+})();
+
+app.get('/users', async (req, res) => {
+    try {
+        const users = await User.findAll()
+        res.json(users)
+    } catch (e) {
+        console.log(e)
+        res.send('Users not found!')
+    }
+
+})
 
 // Connect
 db.connect((err) => {
@@ -34,6 +85,24 @@ db.connect((err) => {
 });
 
 // OPC tests
+// app.get('/api/posts', async (req, res) => {
+//     let sql = `SELECT *
+//                 FROM wp_posts
+//                 LIMIT 50`;
+//     try {
+//         db.query(sql, function (err, results) {
+//             res.json(results)
+//             console.log(`Success`)
+
+//             let data = JSON.parse(JSON.stringify(results))
+//             console.log(data)
+//         });
+//     } catch (e) {
+//         console.log(e)
+//         results.send('Product not found!')
+//     }
+// })
+
 app.get('/api/posts', (req, res) => {
     let sql = `SELECT *
                 FROM wp_posts
