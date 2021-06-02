@@ -13,7 +13,17 @@ module.exports = {
                 user: process.env.DB_USER2,
                 password: process.env.DB_PASS2,
                 database: process.env.DB_NAME2,
-                port: process.env.DB_PORT2
+                port: process.env.DB_PORT2,
+                dialect: 'mysql',
+                pool: {
+                    max: 5,
+                    min: 0,
+                    acquire: 30000,
+                    idle: 10000
+                },
+                dialectOptions: {
+                    bigNumberStrings: true
+                }
             }
         }
     }

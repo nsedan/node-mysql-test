@@ -1,0 +1,16 @@
+{
+    "name": "nodemysql",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/nsedan/node-mysql-test.git",
+    "author": "nsedan <naim.alejandro.sedan@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "frontend": " yarn --cwd packages/frontend run start",
+        "backend": "nodemon --cwd packages/backend",
+        "start": "concurrently \"yarn run frontend\" \"yarn run backend\""
+    },
+    "dependencies": {
+        "concurrently": "^6.2.0"
+    }
+}
