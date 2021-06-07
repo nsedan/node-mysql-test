@@ -1,8 +1,7 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
 
-import MainMenu from "./MainMenu";
+import SideMenu from "./SideMenu";
 
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -25,7 +24,7 @@ const NavBar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <MainMenu />
+        <SideMenu />
         <Typography variant="h6" className={classes.title}>
           Portal
         </Typography>
