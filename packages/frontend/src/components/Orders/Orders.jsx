@@ -8,7 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { Zoom } from "@material-ui/core";
+import Grow from "@material-ui/core/Grow";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -19,7 +19,7 @@ const StyledTableCell = withStyles((theme) => ({
 
 const Orders = ({ orders }) => {
   return (
-    <Zoom in={true}>
+    <Grow in={true}>
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
@@ -40,7 +40,7 @@ const Orders = ({ orders }) => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Zoom>
+    </Grow>
   );
 };
 

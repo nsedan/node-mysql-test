@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import OrderRoute from "./components/Orders/OrderRoute";
 import NavBar from "./components/UI/NavBar";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Auth from "./components/Auth/Auth";
 
 import "./App.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -36,6 +37,7 @@ const App = () => {
         <NavBar />
         <OrderRoute />
         <Dashboard />
+        <Auth/>
       </ThemeProvider>
     </Router>
   );

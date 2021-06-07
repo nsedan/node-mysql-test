@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
+
 import MainMenu from "./MainMenu";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,7 +29,9 @@ const NavBar = () => {
         <Typography variant="h6" className={classes.title}>
           Portal
         </Typography>
-        <Button color="inherit">Login</Button>
+        <Button component={Link} to={"/login"} color="inherit">
+          Login
+        </Button>
       </Toolbar>
     </AppBar>
   );
