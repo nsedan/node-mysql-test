@@ -6,9 +6,9 @@
     "author": "nsedan <naim.alejandro.sedan@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "frontend": " yarn --cwd packages/frontend run start",
+        "frontend": " yarn --cwd packages/frontend start",
         "backend": "nodemon --cwd packages/backend",
-        "start": "concurrently \"yarn run frontend\" \"yarn run backend\""
+        "start": "concurrently \"yarn frontend\" \"yarn backend\""
     },
     "dependencies": {
         "concurrently": "^6.2.0"

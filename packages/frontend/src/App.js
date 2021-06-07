@@ -1,6 +1,6 @@
 import { BrowserRouter as Router } from "react-router-dom";
 
-import OrderRoute from "./components/Orders/OrderRoute";
+import OrdersPage from "./pages/OrdersPage";
 import NavBar from "./components/UI/NavBar";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Auth from "./components/Auth/Auth";
@@ -35,7 +35,7 @@ const App = () => {
         <CssBaseline />
 
         <NavBar />
-        <OrderRoute />
+        <OrdersPage />
         <Dashboard />
         <Auth/>
       </ThemeProvider>

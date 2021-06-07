@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { Route } from "react-router-dom";
 import axios from "axios";
 
-import Orders from "./Orders";
+import Orders from "../components/Orders/Orders";
 
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const OrderRoute = () => {
+const OrdersPage = () => {
   const [responseData, setData] = useState("");
   useEffect(() => {
     axios("http://localhost:4000/api/customer/81/orders")
@@ -37,4 +37,4 @@ const OrderRoute = () => {
   );
 };
 
-export default OrderRoute;
+export default OrdersPage;
