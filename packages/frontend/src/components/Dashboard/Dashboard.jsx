@@ -23,7 +23,7 @@ const Dashboard = () => {
   const classes = useStyles();
 
   return (
-    <Route exact path="/">
+    <Route exact path="/dashboard">
       <Box display="flex" justifyContent="center">
         <h1>Dashboard</h1>
       </Box>

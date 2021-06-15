@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
 const Auth = () => {
   const classes = useStyles();
   return (
-    <Route exact path="/login">
+    <Route exact path="/">
       <Container maxWidth="sm">
-        <Box mt={5}>
+        <Box mt={10}>
           <Grow in={true}>
             <form className={classes.root} noValidate autoComplete="off">
               <TextField

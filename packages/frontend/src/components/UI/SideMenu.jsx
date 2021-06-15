@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,8 +22,7 @@ const useStyles = makeStyles({
 
 const SideMenu = () => {
   const classes = useStyles();
-  const anchor = "left";
-  const [state, setState] = React.useState({
+  const [anchorState, setAnchorState] = useState({
     left: false,
   });
 
@@ -34,18 +33,18 @@ const SideMenu = () => {
     ) {
       return;
     }
-    setState({ ...state, [anchor]: open });
+    setAnchorState({ [anchor]: open });
   };
 
-  const list = (anchor) => (
+  const linkList = () => (
     <div
       className={classes.list}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      onClick={toggleDrawer("left", false)}
+      onKeyDown={toggleDrawer("left", false)}
     >
       <List>
-        <ListItem button component={Link} to="/">
+        <ListItem button component={Link} to="/dashboard">
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
@@ -58,7 +57,7 @@ const SideMenu = () => {
           <ListItemText primary="Orders" />
         </ListItem>
         <Divider />
-        <ListItem button>
+        <ListItem button component={Link} to="/logout">
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
@@ -69,18 +68,14 @@ const SideMenu = () => {
   );
 
   return (
-    <React.Fragment key={anchor}>
-      <Button onClick={toggleDrawer(anchor, true)}>
+    <>
+      <Button onClick={toggleDrawer("left", true)}>
         <MenuIcon />
       </Button>
-      <Drawer
-        anchor={anchor}
-        open={state[anchor]}
-        onClose={toggleDrawer(anchor, false)}
-      >
-        {list(anchor)}
+      <Drawer open={anchorState["left"]} onClose={toggleDrawer("left", false)}>
+        {linkList("left")}
       </Drawer>
-    </React.Fragment>
+    </>
   );
 };
 

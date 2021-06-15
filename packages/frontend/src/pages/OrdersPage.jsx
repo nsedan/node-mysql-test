@@ -10,7 +10,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 const OrdersPage = () => {
   const [responseData, setData] = useState("");
   useEffect(() => {
-    axios("http://localhost:4000/api/customer/81/orders")
+    axios("http://localhost:4000/api/orders")
       .then((res) => {
         const response = res.data;
         setData(response);

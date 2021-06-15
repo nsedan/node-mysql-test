@@ -56,7 +56,7 @@ const sync = (async () => {
     // const jane = await User.create({name: "Jane", age: 25, cash: 5000});
     // console.log(jane.toJSON());
     const users = await User.findAll();
-    console.log("All users:", JSON.stringify(users, null, 2));
+    // console.log("All users:", JSON.stringify(users, null, 2));
 })();
 
 app.get('/users', async (req, res) => {
@@ -73,36 +73,65 @@ app.get('/users', async (req, res) => {
 // Connect
 db.connect((err) => {
     if (err) {
-        res.status(500).send({
-            message: err.message || "Some error occurred while connecting to DB."
-        });
-        res.status(400).send({
-            message: err.message || "Not found."
-        });
+        console.log(err)
     }
-    console.log('===================================');
+    console.log('===========CONNECTING==============');
     console.log('DB connection sucessful.');
 });
 
+// SCE10 tests
+app.get('/api/orderstatus', async (req, res) => {
+    let orderStatusSetup = [
+      { serialkey: 3, description: "Empty Order" },
+      { serialkey: 4, description: "Created Externally" },
+      { serialkey: 5, description: "Created Internally" },
+      { serialkey: 37, description: "Did Not Allocate" },
+      { serialkey: 6, description: "Converted" },
+      { serialkey: 7, description: "Not Started" },
+      { serialkey: 21, description: "Unknown" },
+      { serialkey: 39, description: "Batched" },
+      { serialkey: 8, description: "Part Pre-allocated" },
+      { serialkey: 9, description: "Pre-allocated" },
+      { serialkey: 33, description: "Released to WareHouse Planner" },
+      { serialkey: 10, description: "Part Allocated" },
+      { serialkey: 11, description: "Part Allocated / Part Picked" },
+      { serialkey: 12, description: "Part Allocated / Part Shipped" },
+      { serialkey: 13, description: "Allocated" },
+      { serialkey: 14, description: "Substituted" },
+      { serialkey: 12, description: "OutOfSync" },
+      { serialkey: 34, description: "Part Released" },
+      { serialkey: 35, description: "Part Released/Part Picked" },
+      { serialkey: 36, description: "Part Released/Part Shipped" },
+      { serialkey: 15, description: "Released" },
+      { serialkey: 16, description: "In Picking" },
+      { serialkey: 17, description: "Part Picked" },
+      { serialkey: 18, description: "Part Picked / Part Shipped" },
+      { serialkey: 19, description: "Picked Complete" },
+      { serialkey: 20, description: "Picked / Part Shipped" },
+      { serialkey: 21, description: "In Packing" },
+      { serialkey: 22, description: "Pack Complete" },
+      { serialkey: 23, description: "Staged" },
+      { serialkey: 24, description: "Manifested" },
+      { serialkey: 25, description: "In Loading" },
+      { serialkey: 26, description: "Loaded" },
+      { serialkey: 27, description: "Part Shipped" },
+      { serialkey: 38, description: "Close Production" },
+      { serialkey: 28, description: "Shipped Complete" },
+      { serialkey: 29, description: "Delivered Accepted" },
+      { serialkey: 30, description: "Delivered Rejected" },
+      { serialkey: 31, description: "Cancelled Externally" },
+      { serialkey: 32, description: "Cancelled Internally" },
+    ];
+
+    try {
+        res.json(orderStatusSetup)
+    } catch (e) {
+        console.log(e)
+        res.send('Not found!')
+    }
+})
+
 // OPC tests
-// app.get('/api/posts', async (req, res) => {
-//     let sql = `SELECT *
-//                 FROM wp_posts
-//                 LIMIT 50`;
-//     try {
-//         db.query(sql, function (err, results) {
-//             res.json(results)
-//             console.log(`Success`)
-
-//             let data = JSON.parse(JSON.stringify(results))
-//             console.log(data)
-//         });
-//     } catch (e) {
-//         console.log(e)
-//         results.send('Product not found!')
-//     }
-// })
-
 app.get('/api/posts', (req, res) => {
     let sql = `SELECT *
                 FROM wp_posts
