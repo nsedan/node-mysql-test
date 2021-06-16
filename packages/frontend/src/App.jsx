@@ -37,7 +37,7 @@ const App = () => {
         <NavBar />
         <OrdersPage />
         <Dashboard />
-        <Auth/>
+        <Auth />
       </ThemeProvider>
     </Router>
   );

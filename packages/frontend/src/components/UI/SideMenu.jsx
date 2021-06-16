@@ -11,6 +11,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import DescriptionIcon from "@material-ui/icons/Description";
+import AssessmentIcon from "@material-ui/icons/Assessment";
+import BusinessIcon from "@material-ui/icons/Business";
 import MenuIcon from "@material-ui/icons/Menu";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
@@ -36,6 +40,15 @@ const SideMenu = () => {
     setAnchorState({ [anchor]: open });
   };
 
+  const menuItems = [
+    { url: "dashboard", title: "Dashboard", icon: DashboardIcon },
+    { url: "orders", title: "Orders", icon: LocalShippingIcon },
+    { url: "asns", title: "ASNs", icon: BusinessIcon },
+    { url: "invoices", title: "Invoices", icon: DescriptionIcon },
+    { url: "reports", title: "Reports", icon: AssessmentIcon },
+    { url: "account", title: "Account", icon: AccountBoxIcon },
+  ];
+
   const linkList = () => (
     <div
       className={classes.list}
@@ -44,18 +57,16 @@ const SideMenu = () => {
       onKeyDown={toggleDrawer("left", false)}
     >
       <List>
-        <ListItem button component={Link} to="/dashboard">
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Dashboard" />
-        </ListItem>
-        <ListItem button component={Link} to="/orders">
-          <ListItemIcon>
-            <LocalShippingIcon />
-          </ListItemIcon>
-          <ListItemText primary="Orders" />
-        </ListItem>
+        {menuItems.map((item, index) => {
+          return (
+            <ListItem button component={Link} key={index} to={item.url}>
+              <ListItemIcon>
+                <DashboardIcon component={item.icon} />
+              </ListItemIcon>
+              <ListItemText primary={item.title} />
+            </ListItem>
+          );
+        })}
         <Divider />
         <ListItem button component={Link} to="/logout">
           <ListItemIcon>

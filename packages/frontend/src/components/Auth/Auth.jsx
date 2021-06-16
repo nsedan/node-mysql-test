@@ -21,7 +21,7 @@ const Auth = () => {
   const classes = useStyles();
   return (
     <Route exact path="/">
-      <Container maxWidth="sm">
+      <Container maxWidth="xs">
         <Box mt={10}>
           <Grow in={true}>
             <form className={classes.root} noValidate autoComplete="off">
