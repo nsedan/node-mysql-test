@@ -12,15 +12,14 @@ app.use(cors())
 const externalDB = config.development.databases.db1;
 const internalDB = config.development.databases.db2;
 
-// Connection
-const db = mysql.createConnection({
-    host: externalDB.host,
-    user: externalDB.user,
-    password: externalDB.password,
-    database: externalDB.database,
-    port: externalDB.port
-});
 
+/*
+*   SEQUELIZE
+*
+*
+*/
+
+// Connection
 const {Sequelize, DataTypes, Model} = require('sequelize');
 const sequelize = new Sequelize({
     host: internalDB.host,
@@ -69,6 +68,23 @@ app.get('/users', async (req, res) => {
     }
 
 })
+
+
+/*
+*   MYSQL
+*
+*
+*/
+
+// Connection
+const db = mysql.createConnection({
+    multipleStatements: true,
+    host: externalDB.host,
+    user: externalDB.user,
+    password: externalDB.password,
+    database: externalDB.database,
+    port: externalDB.port
+});
 
 // Connect
 db.connect((err) => {
@@ -133,18 +149,36 @@ app.get('/api/orderstatus', async (req, res) => {
 
 // OPC tests
 app.get('/api/posts', (req, res) => {
-    let sql = `SELECT *
-                FROM wp_posts
-                LIMIT 50`;
-    db.query(sql, function (err, results) {
+    const sql = [`SELECT 
+                    orders.order_id,
+                    orders.customer_id,
+                    orders.date_created,
+                    orders.status
+                FROM wp_wc_order_stats AS orders
+                ORDER BY orders.order_id DESC
+                LIMIT 5`,
+                `SELECT 
+                    posts.ID,
+                    posts.post_title,
+                    posts.post_status
+                FROM wp_posts as posts
+                LIMIT 5`];
+
+    db.query(sql.join(';'), (err, results) => {
         if (err) {
             throw err;
         }
-        res.json(results)
-        console.log(`Success`)
+        const data1 = JSON.parse(JSON.stringify(results[0]))
+        const data2 = JSON.parse(JSON.stringify(results[1]))
+        let dataArray = [];
 
-        let data = JSON.parse(JSON.stringify(results))
-        console.log(data)
+        data1.map(o => {
+            dataArray = [...dataArray, {
+                order_id: o.order_id,
+                status: o.status
+            }]
+        })
+        res.send(results)
     });
 })
 
