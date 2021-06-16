@@ -68,7 +68,7 @@ const SideMenu = () => {
           );
         })}
         <Divider />
-        <ListItem button component={Link} to="/logout">
+        <ListItem button component={Link} to="/">
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>

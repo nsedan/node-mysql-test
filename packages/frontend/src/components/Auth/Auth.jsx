@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -37,7 +37,13 @@ const Auth = () => {
                 variant="outlined"
                 fullWidth
               />
-              <Button variant="contained" color="primary" fullWidth>
+              <Button
+                component={Link}
+                to="/dashboard"
+                variant="contained"
+                color="primary"
+                fullWidth
+              >
                 Login
               </Button>
             </form>
