@@ -7,9 +7,6 @@ module.exports = (app) => {
   // Retrieve all Users
   app.get("/api/users", users.findAll);
 
-  // Retrieve all published Users
-  app.get("/api/users/published", users.findAllPublished);
-
   // Retrieve a single User with id
   app.get("/api/users/:id", users.findOne);
 
@@ -18,7 +15,4 @@ module.exports = (app) => {
 
   // Delete a User with id
   app.delete("/api/users/:id", users.delete);
-
-  // Delete all Users
-  app.delete("/api/users", users.deleteAll);
 };
