@@ -17,7 +17,7 @@ const externalDB = config.development.databases.db1;
  */
 const seqConnection = require("./sequelize/connection");
 seqConnection.sequelize.sync();
-require("./sequelize/routes/User.routes")(app);
+require("./sequelize/routes/user.routes")(app);
 // seqConnection.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
