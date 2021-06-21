@@ -10,11 +10,18 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 const OrdersPage = () => {
   const [responseData, setData] = useState("");
   useEffect(() => {
-    axios("http://localhost:4000/api/orders")
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+
+    const key = Object.keys(params)[0];
+    const value = params[key];
+
+    const query = value !== undefined ? `?${key}=${value}` : '';
+
+    axios(`http://localhost:4000/api/orders${query}`)
       .then((res) => {
         const response = res.data;
         setData(response);
-        console.log(response);
       })
       .catch((error) => {
         console.log(
