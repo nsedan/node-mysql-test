@@ -5,5 +5,5 @@ module.exports = (app) => {
   app.get("/api/orders", orders.getAll);
 
   // Retrieve specific Order with ID
-  app.get("/api/orders/:id", orders.findOne);
+  app.get("/api/orders/:id", orders.getOne);
 };

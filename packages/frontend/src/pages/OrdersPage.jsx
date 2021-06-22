@@ -16,7 +16,7 @@ const OrdersPage = () => {
     const key = Object.keys(params)[0];
     const value = params[key];
 
-    const query = value !== undefined ? `?${key}=${value}` : '';
+    const query = value !== undefined ? `?${key}=${value}` : "";
 
     axios(`http://localhost:4000/api/orders${query}`)
       .then((res) => {

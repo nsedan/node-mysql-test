@@ -1,4 +1,4 @@
-import { BrowserRouter as Router } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import OrdersPage from "./pages/OrdersPage";
 import NavBar from "./components/UI/NavBar";
@@ -29,17 +29,18 @@ const theme = createMuiTheme({
 });
 
 const App = () => {
-  return (
-    <Router>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+  const location = useLocation();
+  console.log(location);
 
-        <NavBar />
-        <OrdersPage />
-        <Dashboard />
-        <Auth />
-      </ThemeProvider>
-    </Router>
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+
+      <NavBar />
+      <OrdersPage />
+      <Dashboard />
+      <Auth />
+    </ThemeProvider>
   );
 };
 

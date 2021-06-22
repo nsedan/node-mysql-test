@@ -29,7 +29,7 @@ exports.getAll = (req, res) => {
 };
 
 // Retrieve specific Order with ID
-exports.findOne = (req, res) => {
+exports.getOne = (req, res) => {
   const orderID = req.params.id;
 
   const sql = `SELECT 
