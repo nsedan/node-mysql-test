@@ -1,53 +1,45 @@
-import React from "react";
-import { Route, Link } from "react-router-dom";
+import React, { useContext, useRef } from "react";
+import { Route, useHistory } from "react-router-dom";
 
-import { makeStyles } from "@material-ui/core/styles";
+import AuthContext from "../../context/auth-context";
+
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Grow from "@material-ui/core/Grow";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-    width: "100%",
-  },
-}));
+import classes from "./Auth.module.css";
 
 const Auth = () => {
-  const classes = useStyles();
+  const authCtx = useContext(AuthContext);
+  const history = useHistory();
+
+  const usernameInputRef = useRef();
+  const passwordInputRef = useRef();
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    authCtx.login();
+    history.replace("/dashboard");
+  };
   return (
     <Route exact path="/">
       <Container maxWidth="xs">
         <Box mt={10}>
-          <Grow in={true}>
-            <form className={classes.root} noValidate autoComplete="off">
-              <TextField
-                id="outlined-basic"
-                label="Username"
-                variant="outlined"
-                fullWidth
+          <form onSubmit={onSubmitHandler}>
+            <div className={classes.Input}>
+              <input
+                placeholder="Username"
+                type="username"
+                required
+                ref={usernameInputRef}
               />
-              <TextField
-                id="outlined-basic"
-                label="Password"
-                variant="outlined"
-                fullWidth
+              <input
+                placeholder="Password"
+                type="password"
+                required
+                ref={passwordInputRef}
               />
-              <Button
-                component={Link}
-                to="/dashboard"
-                variant="contained"
-                color="primary"
-                fullWidth
-              >
-                Login
-              </Button>
-            </form>
-          </Grow>
+            </div>
+            <button className={classes.SubmitBtn}>Login</button>
+          </form>
         </Box>
       </Container>
     </Route>

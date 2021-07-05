@@ -1,5 +1,3 @@
-import { useLocation } from "react-router-dom";
-
 import OrdersPage from "./pages/OrdersPage";
 import NavBar from "./components/UI/NavBar";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -29,9 +27,6 @@ const theme = createMuiTheme({
 });
 
 const App = () => {
-  const location = useLocation();
-  console.log(location);
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

@@ -20,14 +20,16 @@ const NavBar = () => {
   const classes = useStyles();
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <SideMenu />
-        <Typography variant="h6" className={classes.title}>
-          Order Tracker
-        </Typography>
-      </Toolbar>
-    </AppBar>
+    <React.Fragment>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            Order Tracker
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <SideMenu />
+    </React.Fragment>
   );
 };
 
