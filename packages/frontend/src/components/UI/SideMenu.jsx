@@ -17,7 +17,6 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const SideMenu = () => {
   const authCtx = useContext(AuthContext);
-  const isLoggedIn = authCtx.isLoggedIn;
   const history = useHistory();
 
   const onLogoutHandler = (e) => {
@@ -35,28 +34,27 @@ const SideMenu = () => {
     { url: "account", title: "Account", icon: AccountBoxIcon },
   ];
 
-  const MenuList = () =>
-    isLoggedIn && (
-      <List>
-        {menuItems.map((item, index) => {
-          return (
-            <ListItem component={Link} key={index} to={item.url}>
-              <DashboardIcon component={item.icon} />
-              <ListItemText>{item.title}</ListItemText>
-            </ListItem>
-          );
-        })}
-        <Divider />
-        <ListItem
-          onClick={(e) => {
-            onLogoutHandler(e);
-          }}
-        >
-          <ExitToAppIcon />
-          <ListItemText>Logout</ListItemText>
-        </ListItem>
-      </List>
-    );
+  const MenuList = () => (
+    <List>
+      {menuItems.map((item, index) => {
+        return (
+          <ListItem component={Link} key={index} to={item.url}>
+            <DashboardIcon component={item.icon} />
+            <ListItemText>{item.title}</ListItemText>
+          </ListItem>
+        );
+      })}
+      <Divider />
+      <ListItem
+        onClick={(e) => {
+          onLogoutHandler(e);
+        }}
+      >
+        <ExitToAppIcon />
+        <ListItemText>Logout</ListItemText>
+      </ListItem>
+    </List>
+  );
 
   return (
     <>

@@ -1,5 +1,4 @@
 import React from "react";
-import { Route } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -22,7 +21,7 @@ const Dashboard = () => {
   const classes = useStyles();
 
   return (
-    <Route exact path="/dashboard">
+    <>
       <Box display="flex" justifyContent="center">
         <h1>Dashboard</h1>
       </Box>
@@ -32,7 +31,7 @@ const Dashboard = () => {
         <Paper elevation={3} />
         <Paper elevation={3} />
       </div>
-    </Route>
+    </>
   );
 };
 

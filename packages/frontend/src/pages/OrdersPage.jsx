@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Route } from "react-router-dom";
 import axios from "axios";
 
 import Orders from "../components/Orders/Orders";
@@ -32,15 +31,13 @@ const OrdersPage = () => {
   }, []);
 
   return (
-    <Route exact path="/orders">
-      <Box m={5} display="flex" justifyContent="center">
-        {responseData.length ? (
-          <Orders orders={responseData} />
-        ) : (
-          <CircularProgress />
-        )}
-      </Box>
-    </Route>
+    <Box m={5} display="flex" justifyContent="center">
+      {responseData.length ? (
+        <Orders orders={responseData} />
+      ) : (
+        <CircularProgress />
+      )}
+    </Box>
   );
 };
 
