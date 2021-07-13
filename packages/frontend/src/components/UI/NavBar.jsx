@@ -22,7 +22,7 @@ const NavBar = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Order Tracker
+            Customer Portal
           </Typography>
         </Toolbar>
       </AppBar>

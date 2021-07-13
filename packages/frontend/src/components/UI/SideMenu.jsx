@@ -5,8 +5,7 @@ import AuthContext from "../../context/auth-context";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
+import Button from "@material-ui/core/Button";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
@@ -39,19 +38,22 @@ const SideMenu = () => {
       {menuItems.map((item, index) => {
         return (
           <ListItem component={Link} key={index} to={item.url}>
-            <DashboardIcon component={item.icon} />
-            <ListItemText>{item.title}</ListItemText>
+            <Button color="primary">
+              <DashboardIcon component={item.icon} />
+              {item.title}
+            </Button>
           </ListItem>
         );
       })}
-      <Divider />
       <ListItem
         onClick={(e) => {
           onLogoutHandler(e);
         }}
       >
-        <ExitToAppIcon />
-        <ListItemText>Logout</ListItemText>
+        <Button color="primary">
+          <ExitToAppIcon />
+          Logout
+        </Button>
       </ListItem>
     </List>
   );

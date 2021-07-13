@@ -53,11 +53,11 @@ const App = () => {
                 <SideMenu />
               </Grid>
               <Grid item xs={10}>
-                <Route exact path="/orders">
-                  <OrdersPage />
-                </Route>
                 <Route exact path="/dashboard">
                   <DashboardPage />
+                </Route>
+                <Route exact path="/orders">
+                  <OrdersPage />
                 </Route>
               </Grid>
             </Grid>

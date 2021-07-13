@@ -1,9 +1,11 @@
-import React, { useContext, useRef } from "react";
+import { useContext, useRef } from "react";
 import { useHistory } from "react-router-dom";
 
 import AuthContext from "../../context/auth-context";
 
 import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import classes from "./Auth.module.css";
 
@@ -19,25 +21,34 @@ const Auth = () => {
     authCtx.login();
     history.replace("/dashboard");
   };
+
   return (
     <Container maxWidth="xs">
       <Box mt={10}>
-        <form onSubmit={onSubmitHandler}>
-          <div className={classes.Input}>
-            <input
-              placeholder="Username"
-              type="username"
-              required
-              ref={usernameInputRef}
-            />
-            <input
-              placeholder="Password"
-              type="password"
-              required
-              ref={passwordInputRef}
-            />
-          </div>
-          <button className={classes.SubmitBtn}>Login</button>
+        <form onSubmit={onSubmitHandler} noValidate autoComplete="off">
+          <TextField
+            label="Username"
+            type="username"
+            variant="outlined"
+            className={classes.input}
+            ref={usernameInputRef}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            variant="outlined"
+            className={classes.input}
+            ref={passwordInputRef}
+          />
+          <Button
+            type="submit"
+            to="/dashboard"
+            variant="contained"
+            color="primary"
+            className={classes.submitBtn}
+          >
+            Login
+          </Button>
         </form>
       </Box>
     </Container>
