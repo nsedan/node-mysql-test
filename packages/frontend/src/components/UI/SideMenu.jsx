@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 
 import AuthContext from "../../context/auth-context";
 
+import classes from "./SideMenu.module.css";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
@@ -39,7 +40,7 @@ const SideMenu = () => {
         return (
           <ListItem component={Link} key={index} to={item.url}>
             <Button color="primary">
-              <DashboardIcon component={item.icon} />
+              <DashboardIcon component={item.icon} className={classes.icon} />
               {item.title}
             </Button>
           </ListItem>
@@ -51,7 +52,7 @@ const SideMenu = () => {
         }}
       >
         <Button color="primary">
-          <ExitToAppIcon />
+          <ExitToAppIcon className={classes.icon} />
           Logout
         </Button>
       </ListItem>
